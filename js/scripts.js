@@ -2,8 +2,30 @@ const toggleTheme =document.getElementById("toggle-theme");
 const toggleIcon =document.getElementById("toggle-icon");
 const toggleText =document.getElementById("toggle-text");
 
+const flagsElement=document.getElementById("flags");
+
+const textsToChange = document.querySelectorAll("[data-section]");
 
 
+const changeLanguage = async (language) =>{
+const requestJson = await fetch (`./${language}.json`);
+const texts = await requestJson.json();
+
+for( const textToChange of textsToChange ){
+    const section = textToChange.dataset.section;
+    const value = textToChange.dataset.value;
+
+    textToChange.textContent= texts[section][value];
+
+}
+
+}
+
+flagsElement.addEventListener("click", (e) =>{
+changeLanguage(e.target.parentElement.dataset.language);
+
+
+});
 
 
 
@@ -27,7 +49,7 @@ const rootStyles = document.documentElement.style;
 
 
 toggleColors.addEventListener("click" ,(e) =>{
-    rootStyles.setProperty("--primary-color",e.target.dataset.color)
+    rootStyles.setProperty("--primary-color", e.target.dataset.color);
 
  
 });
